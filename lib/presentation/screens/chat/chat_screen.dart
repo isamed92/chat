@@ -49,7 +49,7 @@ class _ChatView extends StatelessWidget {
 
                   return (message.fromWho == FromWho.mine)
                       ? MyMessageBuble(message: message)
-                      : YouMessageBuble();
+                      : YouMessageBuble(message: message);
                 },
               ),
             ),

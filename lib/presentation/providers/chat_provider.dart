@@ -1,19 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:yes_no_app/config/helpers/get_yes_no_answer.dart';
 import 'package:yes_no_app/domain/entities/message.dart';
 
 class ChatProvider extends ChangeNotifier {
   final ScrollController chatScrollController = ScrollController();
 
-  List<Message> messages = [
-    Message(text: 'Hola amor', fromWho: FromWho.mine),
-    Message(text: 'ya regresaste del trabajo?', fromWho: FromWho.mine),
-  ];
+  final GetYesNoAnswer getYesNoAnswer = GetYesNoAnswer();
+
+  List<Message> messages = [];
+  Future<void> herReply() async {
+    final herMsg = await getYesNoAnswer.getAnswer();
+    messages.add(herMsg);
+
+    notifyListeners();
+    moveScrollToBottom();
+  }
 
   Future<void> sendMessage(String msg) async {
     if (msg.isEmpty) return;
     final newMessage = Message(text: msg, fromWho: FromWho.mine);
 
     messages.add(newMessage);
+
+    if (msg.endsWith('?')) {
+      await herReply();
+    }
     notifyListeners();
     moveScrollToBottom();
   }

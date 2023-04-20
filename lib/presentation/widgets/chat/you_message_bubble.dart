@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:yes_no_app/domain/entities/message.dart';
 
 class YouMessageBuble extends StatelessWidget {
-  const YouMessageBuble({super.key});
+  final Message message;
+  const YouMessageBuble({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -14,18 +14,18 @@ class YouMessageBuble extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
               color: colors.secondary, borderRadius: BorderRadius.circular(20)),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Text(
-              'Hola mundo',
-              style: TextStyle(color: Colors.white),
+              message.text,
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         ),
         const SizedBox(
           height: 5,
         ),
-        _ImageBuble(),
+        _ImageBuble(url: message.imageUrl!),
         const SizedBox(
           height: 10,
         ),
@@ -35,6 +35,9 @@ class YouMessageBuble extends StatelessWidget {
 }
 
 class _ImageBuble extends StatelessWidget {
+  final String url;
+
+  const _ImageBuble({required this.url});
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -42,7 +45,7 @@ class _ImageBuble extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: Image.network(
-        'https://yesno.wtf/assets/no/15-7446b1035f784986609f456e15d30a5b.gif',
+        url,
         width: size.width * 0.5,
         height: 150,
         fit: BoxFit.cover,
